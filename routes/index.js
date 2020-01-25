@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
     // console.log('==========The response========');
     // console.log(response);
     const parsedData = JSON.parse(movieData);
-    console.log(parsedData);
+    // console.log(parsedData);
     // res.json(parsedData)
     res.render('index', { parsedData: parsedData.results });
   })
@@ -52,12 +52,15 @@ router.post('/search', (req, res, next) => {
   const userSearchTerm = encodeURI(req.body.movieSearch);
   const cat = req.body.cat;
   const movieUrl = `${apiBaseUrl}/search/${cat}?query=${userSearchTerm}&api_key=${apiKey}`
+  console.log(movieUrl)
   // res.send(movieUrl)
   request.get(movieUrl, (error, response, movieData) => {
     const parsedData = JSON.parse(movieData);
-    // res.json(parsedData)
+    console.log('parsedData')
+    console.log(parsedData)
     if (cat == "person") {
-      parsedData.results = parsedData.results[0].known_for
+      // parsedData.results = parsedData.results[0].known_for
+      parsedData.results = parsedData[0].known_for
     }
     res.render('index', {
       parsedData: parsedData.results
